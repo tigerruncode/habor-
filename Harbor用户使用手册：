@@ -1,0 +1,58 @@
+Docker实战系列——第二话--docker仓库管理（二）--玩转Harbor
+2017年07月26日 15:23:01
+阅读数：344
+企业级开源docker 仓库管理工具Harbor
+官网地址：https://vmware.github.io/harbor/ 
+GitHub地址：https://github.com/vmware/harbor
+
+私有仓库搭建和配置手册：
+官网参考手册： 
+https://github.com/vmware/harbor/blob/master/docs/installation_guide.md
+
+备注：推荐使用HTTPS协议进行通信
+
+第一步：下载并使用离线安装包，安装到服务器上
+第二步：配置haror.cfg
+第三步：运行install.sh 并启动Harbor
+第四步：访问harbor首页
+第五步：配置客户端，并使用客户端登录，验证是否能正常push和pull
+1、需要安装上服务器端的CA证书
+    在etc/docker/certs.d/域名或者IP/ca.crt
+2、需要修改etc/hosts文件，使域名可访问
+1
+2
+3
+4
+Harbor用户使用手册：
+
+https://github.com/vmware/harbor/blob/master/docs/user_guide.md
+
+遗留问题： 
+1、使用CA服务器给私有仓库颁发证书，看看服务端和客户端之间是否还能正常连接、通信 
+2、使用域名访问，还是有些问题。 
+3、用于生产环境时，在进行安装配置的时候，配置文件中：需要修改MySQL默认密码、harbor的默认密码
+
+注意： 客户端访问配置
+1、CA认证： 
+在客户端必须要有从服务器端（私有仓库所在机器）拿下来的CA证书(否则报错，unauthorized： authentication required)
+
+将上个图中的内容追加到下图中ca-bundle.crt中
+
+2、hosts配置 
+必须在客户机中配置上可以通信的host主机名（否则报错，no such host）
+
+3、需要在客户机的daemon.json上配置 “insecure-registries”:[“xxx.xxxx.xxx.xxxx:5000”] 
+（否则会报错：http ……请求 HTTPS ……之类的错误） 
+附录一：下载页面和版本迭代情况说明 
+https://github.com/vmware/harbor/releases 
+附录二：CA原理参考 
+http://www.jianshu.com/p/e767a4e9252e 
+http://www.cnblogs.com/littlehann/p/3738141.html 
+http://www.cnblogs.com/jeffreysun/archive/2010/06/24/1627247.html
+
+附录三： 
+Harbor文档参考 
+https://github.com/vmware/harbor/tree/master/docs 
+Harbor原理讲解： 
+http://dockone.io/article/1179
+
